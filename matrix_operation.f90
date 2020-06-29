@@ -29,11 +29,35 @@ contains
             end do
             !$omp end do
             !$omp end parallel
+            return
         end if
+    end subroutine dot
+
+    !要素積を計算する
+    subroutine hadamard(Arow,Aclm,A,B)
+        integer(8),intent(in)::Arow,Aclm
+        real,intent(inout)::A(Aclm,Arow)
+        real,intent(in)::B(Aclm,Arow)
+        integer(8)::i,j
+
+        !$omp parallel private(j)
+        !$omp do
+        do i=1,Arow
+            !$omp parallel
+            !$omp do
+            do j=1,Aclm
+                A(j,i)=A(j,i)*B(j,i)
+            end do
+            !$omp end do
+            !$omp end parallel
+        end do
+        !$omp end do
+        !$omp end parallel
 
         return
-    end subroutine dot
+    end subroutine hadamard
     
+    !行列同士の和ないし差を取る
     subroutine plus(Arow,Aclm,A,b)
         implicit none
         integer(8),intent(in)::Arow,Aclm
@@ -58,19 +82,3 @@ contains
         return
     end subroutine plus
 end module matrix_operation
-
-program main
-    use matrix_operation
-    implicit none
-    integer(8)::Arow,Aclm,Brow,Bclm
-    real,allocatable::A(:,:),B(:,:),C(:,:)
-    read*,Arow,Aclm,Brow,Bclm
-    allocate(A(Aclm,Arow))
-    allocate(B(Bclm,Brow))
-    allocate(C(Bclm,Arow))
-    read*,A,B
-    call dot(Arow,Aclm,Brow,Bclm,A,B,C)
-    print*,C
-    deallocate(C)
-end program main
-
