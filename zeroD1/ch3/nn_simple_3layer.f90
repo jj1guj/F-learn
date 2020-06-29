@@ -35,7 +35,7 @@ program main
     !3層目
     call dot(Z2,W3,A3)
     A3(:,:)=A3(:,:)+B3(:,:)
-    Y=A3
+    call softmax(A3,Y)
     deallocate(Z2)
     deallocate(A3)
 
