@@ -3,24 +3,27 @@ module matrix_operation
     
 contains
     !行列積を計算する
-    subroutine dot(Arow,Aclm,Brow,Bclm,A,B,C)
+    subroutine dot(A,B,C)
         implicit none
-        integer(8),intent(in)::Arow,Aclm,Brow,Bclm
-        real,intent(in)::A(Aclm,Arow),B(Bclm,Brow)
-        real,intent(out)::C(Bclm,Arow)
-        integer(8)::i,j,k
+        real,intent(in)::A(:,:),B(:,:)
+        real,allocatable,intent(out)::C(:,:)
+        integer::i,j,k
+        integer::Ashape(2),Bshape(2)
+        Ashape=shape(A)
+        Bshape=shape(B)
+        allocate(C(Bshape(1),Ashape(2)))
 
-        if(Aclm/=Brow)then
+        if(Ashape(1)/=Bshape(2))then
             print'(A)',"CAN NOT CALC!"
         else
             !$omp parallel private(j,k)
             !$omp do
-            do i=1,Arow
+            do i=1,Ashape(2)
                 !$omp parallel private(k)
                 !$omp do
-                do j=1,Bclm
+                do j=1,Bshape(1)
                     C(j,i)=0
-                    do k=1,Aclm
+                    do k=1,Ashape(1)
                         C(j,i)=C(j,i)+A(k,i)*B(j,k)
                     end do
                 end do
