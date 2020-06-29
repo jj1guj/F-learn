@@ -1,8 +1,8 @@
 module parceptron
+    use matrix_operation
     implicit none
 contains
     subroutine AND(x1,x2,ans)
-        use matrix_operation
         implicit none
         real,intent(in)::x1,x2
         real,intent(out)::ans
@@ -22,7 +22,6 @@ contains
     end subroutine AND
 
     subroutine NAND(x1,x2,ans)
-        use matrix_operation
         implicit none
         real,intent(in)::x1,x2
         real,intent(out)::ans
@@ -42,7 +41,6 @@ contains
     end subroutine NAND
 
     subroutine OR(x1,x2,ans)
-        use matrix_operation
         implicit none
         real,intent(in)::x1,x2
         real,intent(out)::ans
