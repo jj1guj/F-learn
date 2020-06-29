@@ -5,10 +5,11 @@ contains
     subroutine step_function(x,y)
         implicit none
         real,intent(in) :: x(:,:)
-        real,intent(out) ::  y(:,:)
+        real,allocatable,intent(out) ::  y(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
+        allocate(y(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
@@ -32,10 +33,11 @@ contains
     subroutine sigmoid(x,y)
         implicit none
         real,intent(in) :: x(:,:)
-        real,intent(out) ::  y(:,:)
+        real,allocatable,intent(out) ::  y(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
+        allocate(y(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
@@ -55,10 +57,11 @@ contains
     subroutine relu(x,y)
         implicit none
         real,intent(in) :: x(:,:)
-        real,intent(out) ::  y(:,:)
+        real,allocatable,intent(out) ::  y(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
+        allocate(y(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
