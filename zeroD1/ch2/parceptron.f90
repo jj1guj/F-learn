@@ -1,5 +1,4 @@
 module parceptron
-    use matrix_operation
     implicit none
 contains
     subroutine AND(x1,x2,ans)
@@ -10,7 +9,7 @@ contains
         W=(/0.5,0.5/)
         x=(/x1,x2/)
         b=-0.7
-        call hadamard(1,2,W,X)
+        W(:)=W(:)*x(:)
         tmp=sum(W)+b
         if(tmp<=0)then
             ans=0
@@ -29,7 +28,7 @@ contains
         W=(/-0.5,-0.5/)
         x=(/x1,x2/)
         b=0.7
-        call hadamard(1,2,W,X)
+        W(:)=W(:)*x(:)
         tmp=sum(W)+b
         if(tmp<=0)then
             ans=0
@@ -48,7 +47,7 @@ contains
         W=(/0.5,0.5/)
         x=(/x1,x2/)
         b=-0.2
-        call hadamard(1,2,W,X)
+        W(:)=W(:)*x(:)
         tmp=sum(W)+b
         if(tmp<=0)then
             ans=0
