@@ -20,22 +20,21 @@ program main
     B3=reshape((/0.1,0.2/),(/2,1/))
 
     !1層目
-    call dot(X,W1,A1)
+    A1=dot(X,W1)
     A1(:,:)=A1(:,:)+B1(:,:)
-    call sigmoid(A1,Z1)
-    deallocate(A1)
+    Z1=sigmoid(A1)
     
     !2層目
-    call dot(Z1,W2,A2)
+    A2=dot(Z1,W2)
     A2(:,:)=A2(:,:)+B2(:,:)
-    call sigmoid(A2,Z2)
+    Z2=sigmoid(A2)
     deallocate(Z1)
     deallocate(A2)
 
     !3層目
-    call dot(Z2,W3,A3)
+    A3=dot(Z2,W3)
     A3(:,:)=A3(:,:)+B3(:,:)
-    call softmax(A3,Y)
+    Y=softmax(A3)
     deallocate(Z2)
     deallocate(A3)
 
