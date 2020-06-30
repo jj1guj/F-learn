@@ -2,14 +2,14 @@ module activation
     implicit none
     
 contains
-    subroutine step_function(x,y)
+    function step_function(x)
         implicit none
-        real,intent(in) :: x(:,:)
-        real,allocatable,intent(out) ::  y(:,:)
+        real::x(:,:)
+        real,allocatable::step_function(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
-        allocate(y(Xshape(1),Xshape(2)))
+        allocate(step_function(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
@@ -18,9 +18,9 @@ contains
             !$omp do
             do i=1,Xshape(2)
                 if(x(j,i)>0)then
-                    y(j,i)=1
+                    step_function(j,i)=1
                 else
-                    y(j,i)=0
+                    step_function(j,i)=0
                 end if
             end do
             !$omp end do
@@ -28,16 +28,16 @@ contains
         end do
         !$omp end do
         !$omp end parallel
-    end subroutine step_function
+    end function
 
-    subroutine sigmoid(x,y)
+    function sigmoid(x)
         implicit none
-        real,intent(in) :: x(:,:)
-        real,allocatable,intent(out) ::  y(:,:)
+        real::x(:,:)
+        real,allocatable::sigmoid(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
-        allocate(y(Xshape(1),Xshape(2)))
+        allocate(sigmoid(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
@@ -45,23 +45,23 @@ contains
             !$omp parallel
             !$omp do
             do i=1,Xshape(2)
-                y(j,i)=1/(1+exp(-1*x(j,i)))
+                sigmoid(j,i)=1/(1+exp(-1*x(j,i)))
             end do
             !$omp end do
             !$omp end parallel
         end do
         !$omp end do
         !$omp end parallel
-    end subroutine sigmoid
+    end function
 
-    subroutine relu(x,y)
+    function relu(x)
         implicit none
-        real,intent(in) :: x(:,:)
-        real,allocatable,intent(out) ::  y(:,:)
+        real::x(:,:)
+        real,allocatable::relu(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
-        allocate(y(Xshape(1),Xshape(2)))
+        allocate(relu(Xshape(1),Xshape(2)))
 
         !$omp parallel private(i)
         !$omp do
@@ -70,9 +70,9 @@ contains
             !$omp do
             do i=1,Xshape(2)
                 if(x(j,i)>0)then
-                    y(j,i)=x(j,i)
+                    relu(j,i)=x(j,i)
                 else
-                    y(j,i)=0
+                    relu(j,i)=0
                 end if
             end do
             !$omp end do
@@ -80,26 +80,23 @@ contains
         end do
         !$omp end do
         !$omp end parallel
-    end subroutine relu
+    end function
 
-    subroutine softmax(x,y)
+    function softmax(x)
         implicit none
-        real,intent(in) :: x(:,:)
-        real,allocatable,intent(out) ::  y(:,:)
-        real::exp_sum
-        real,allocatable::c(:,:),x2(:,:)
+        real::x(:,:),exp_sum
+        real,allocatable::softmax(:,:),c(:,:)
         integer::i,j
         integer,allocatable::Xshape(:)
         Xshape=shape(x)
-        allocate(y(Xshape(1),Xshape(2)))
+        allocate(softmax(Xshape(1),Xshape(2)))
         allocate(c(Xshape(1),Xshape(2)))
-        allocate(x2(Xshape(1),Xshape(2)))
         
         !オーバーフロー対策の下処理
         c=maxval(x)
-        x2(:,:)=x(:,:)-c
+        x(:,:)=x(:,:)-c(:,:)
+        exp_sum=sum(exp(x))
 
-        exp_sum=sum(exp(x2))
 
         !$omp parallel private(i)
         !$omp do
@@ -107,12 +104,12 @@ contains
             !$omp parallel
             !$omp do
             do i=1,Xshape(2)
-                y(j,i)=exp(x2(j,i))/exp_sum
+                softmax(j,i)=exp(x(j,i))/exp_sum
             end do
             !$omp end do
             !$omp end parallel
         end do
         !$omp end do
         !$omp end parallel
-    end subroutine softmax
+    end function
 end module activation

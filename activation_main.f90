@@ -1,15 +1,14 @@
 program main
     use activation
     implicit none
-    real::A(2,1),B(2,1)
+    real::A(2,1)
     A(1,1)=2
     A(2,1)=-1
-    call step_function(A,B)
-    print*,B
+    print*,step_function(A)
 
-    call sigmoid(A,B)
-    print*,B
+    print*,sigmoid(A)
 
-    call relu(A,B)
-    print*,B
+    print*,relu(A)
+
+    print*,softmax(A)
 end program main
