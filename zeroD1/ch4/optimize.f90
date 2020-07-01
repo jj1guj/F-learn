@@ -42,7 +42,7 @@ contains
                 real::xin(:,:),Win(:,:)
             end function
         end interface
-        integer::t(:,:),i,j,steps,step_num
+        integer::t(:,:),steps,step_num
         real::x(:,:),W(:,:),lr
         real,allocatable::gradient_decent(:,:),grad(:,:)
         gradient_decent=W
