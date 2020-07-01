@@ -1,6 +1,8 @@
-# Fortran_machine_learning
+# これは何？
  Fortranで機械学習するようのライブラリ的ななにか  
- Fortranで機械学習やってみたくないですか？ぼくはやってみたいです()
+ Fortranでmachine learningするからF-learn  
+ Fortranで機械学習やってみたくないですか？ぼくはやってみたいです()  
+ なんか思いついてよくよく考えたらFランとなんか音がかぶってて天才か？ってなった
 
 # 目標
 とりあえず精度はともかくとしてMNISTをできるようにする
