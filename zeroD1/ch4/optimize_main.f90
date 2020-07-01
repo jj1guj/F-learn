@@ -14,6 +14,8 @@ program main
     !勾配を求める
     dW=numerical_gradient(loss,W,x,t)
     print*,dW
+    W=gradient_decent(loss,W,x,t,0.01,10000)
+    print*,W
 contains
     function loss(W,x,t)
         real,allocatable::z(:,:),y(:,:)
