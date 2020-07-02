@@ -30,6 +30,7 @@ contains
         !$omp end parallel
     end function
 
+    !形がAshapeの行列を0~1の乱数で初期化する
     function random_init(Ashape)
         integer::Ashape(2),seedsize,i
         integer,allocatable::seed(:)
