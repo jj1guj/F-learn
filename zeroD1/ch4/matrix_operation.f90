@@ -29,4 +29,17 @@ contains
         !$omp end do
         !$omp end parallel
     end function
+
+    function random_init(Ashape)
+        integer::Ashape(2),seedsize,i
+        integer,allocatable::seed(:)
+        real::random_init(Ashape(1),Ashape(2))
+
+        call random_seed(size=seedsize)
+        allocate(seed(seedsize))
+        do i=1,seedsize
+            call system_clock(count=seed(i))
+        end do
+        call random_number(random_init)
+    end function
 end module matrix_operation
