@@ -2,6 +2,7 @@ module loss_function
     implicit none
     
 contains
+    !Y: 出力ラベル, T: 正解ラベル
     function meam_squared_error(Y,T)
         implicit none
         integer::T(:,:)
@@ -25,6 +26,7 @@ contains
         meam_squared_error=meam_squared_error/real(N)
     end function
 
+    !Y: 出力ラベル, T: 正解ラベル
     function cross_entropy_error(Y,T)
         implicit none
         integer::T(:,:)
