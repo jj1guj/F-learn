@@ -43,4 +43,18 @@ contains
         end do
         call random_number(random_init)
     end function
+
+    !一次元配列の最大値のインデックスを返す
+    function argmax(A)
+        integer::argmax,i,Ashape(1)
+        real::A(:),amax
+        amax=maxval(A)
+        Ashape=shape(A)
+        do i=1,Ashape(1)
+            if(A(i)==amax)then
+                argmax=i
+                exit
+            end if
+        end do
+    end function
 end module matrix_operation
